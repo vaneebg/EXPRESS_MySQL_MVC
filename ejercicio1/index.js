@@ -12,6 +12,10 @@ const db = mysql.createConnection({
 });
 db.connect();
 
+
+// EJERCICIO 1
+
+
 app.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE store';
     db.query(sql, (err, result) => {
@@ -40,6 +44,103 @@ app.get('/createtable_categories', (req, res) => {
     })
 })
 
+// EJERCICIO 2
+// Crea un endpoint para añadir un producto nuevo y añade 2 productos nuevos desde el postman
+app.post("/add_product", (req, res) => {
+    let product = { categories_id: req.body.categories_id, name_product: req.body.name_product, price: req.body.price, stock: req.body.stock };
+    let sql = "INSERT INTO products SET ?";
+    db.query(sql, product, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send("Post added...");
+    });
+});
+
+// Crea un endpoint para crear una categoría y añade 2 categorías nuevas desde el postman
+app.post("/add_categorie", (req, res) => {
+    let categorie = { products_id: req.body.products_id, name_categorie: req.body.name_categorie, stock: req.body.stock };
+    let sql = "INSERT INTO categories SET ?";
+    db.query(sql, categorie, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send("Post added...");
+    });
+});
+// EJERCICIO 3
+// Crea un endpoint para actualizar un producto. 
+app.put('/products/:id', (req, res) => {
+
+        let sql = `UPDATE products SET categories_id='${req.body.categories_id}',name_product = '${req.body.name_product}', price='${req.body.price}', stock='${req.body.stock}' WHERE id = ${req.params.id}`;
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            console.log(result);
+            res.send('Post updated...')
+        })
+    })
+    // Crea un endpoint para actualizar una categoría.
+app.put('/categories/:id', (req, res) => {
+
+    let sql = `UPDATE categories SET products_id='${req.body.products_id}',name_categorie = '${req.body.name_categorie}', stock='${req.body.stock}' WHERE id = ${req.params.id}`;
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send('Post updated...')
+    })
+})
+
+// Ejercicio 4
+// Crea un endpoint que muestre todos los productos
+app.get('/allproducts', (req, res) => {
+        let sql = 'SELECT * FROM products';
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+    // Crea un endpoint que muestre todas las categorías
+app.get('/allcategories', (req, res) => {
+        let sql = 'SELECT * FROM categories';
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+    // Crea un endpoint que muestra todos los productos con sus categorías
+app.get('/allproducts_categories', (req, res) => {
+        let sql = 'select * from products INNER JOIN categories on products.categories_id = categories.id';
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+    // Crea un endpoint donde puedas seleccionar un producto por id
+app.get('/products/:id', (req, res) => {
+        let sql = `SELECT * FROM products WHERE id = ${req.params.id}`;
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+    // Crea un endpoint que muestre de forma descendente los productos.
+app.get('/allproducts_desc', (req, res) => {
+        let sql = 'SELECT * FROM products ORDER BY id DESC';
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+    // Crea un endpoint donde puedas seleccionar una categoría por id
+app.get('/categories/:id', (req, res) => {
+        let sql = `SELECT * FROM categories WHERE id = ${req.params.id}`;
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+    // Crea un endpoint donde puedas buscar un producto por su nombre
+
+
+// Crea un endpoint donde puedas eliminar un producto por su id
 
 
 app.listen(port, () => {
