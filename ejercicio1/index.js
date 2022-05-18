@@ -138,10 +138,22 @@ app.get('/categories/:id', (req, res) => {
         })
     })
     // Crea un endpoint donde puedas buscar un producto por su nombre
-
+app.get('/products/por_nombre/:nombre', (req, res) => {
+    let sql = `SELECT * FROM products WHERE name_product = '${req.params.nombre}'`;
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.send(result)
+    })
+})
 
 // Crea un endpoint donde puedas eliminar un producto por su id
-
+app.delete('/products_delete/:id', (req, res) => {
+    let sql = `DELETE FROM products WHERE id = ${req.params.id}`;
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.send('Post deleted')
+    })
+})
 
 app.listen(port, () => {
     console.log(`Server started on ${port}`);
