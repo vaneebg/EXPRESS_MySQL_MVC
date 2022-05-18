@@ -1,6 +1,6 @@
 const db = require("../config/database.js");
 
-const PostController = {
+const ProductController = {
     createTableProducts(req, res) {
         let sql = 'CREATE TABLE Products(id int auto_increment,categories_id int,name_product VARCHAR(100),price DECIMAL (5,2),stock int,PRIMARY KEY (id))'
         db.query(sql, (err, result) => {
@@ -69,4 +69,4 @@ const PostController = {
         })
     }
 }
-module.exports = PostController;
+module.exports = ProductController;
