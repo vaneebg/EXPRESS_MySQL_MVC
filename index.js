@@ -1,19 +1,15 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const mysql = require('mysql2');
+const router = express.Router();
 const db = require('./config/database.js');
 
+app.use('/categories', require('./routes/categories'));
+app.use('/products', require('./routes/products'));
 app.use(express.json())
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Vbg12345',
-    database: 'store'
-});
-db.connect();
 
 
+module.exports = router;
 // EJERCICIO 1
 
 
