@@ -2,7 +2,7 @@ const db = require("../config/database.js");
 
 const CategoryController = {
     createTableCategories(req, res) {
-        let sql = 'CREATE TABLE Categories(id INT auto_increment, products_id INT,name_categorie VARCHAR(45),stock int,PRIMARY KEY (id), FOREIGN KEY (products_id) REFERENCES products(id))'
+        let sql = 'CREATE TABLE Categories(id INT auto_increment, products_id INT,name_categorie VARCHAR(45),stock int,PRIMARY KEY (id), FOREIGN KEY (products_id) REFERENCES products(id)) '
 
         db.query(sql, (err, result) => {
             if (err) throw err;
